@@ -27,24 +27,27 @@ const App = () => {
       <AppBar />
       <Suspense fallback={<Spinner />}>
         <Switch>
-          <Route exact path={routes.home} component={HomeView} />
-          <PrivateRoute
-            path={routes.contacts}
-            component={ContactsViews}
-            redirectTo={routes.login}
-          />
+          <Route exact path={routes.home}>
+            <HomeView />
+          </Route>
+          <PrivateRoute path={routes.contacts} redirectTo={routes.login}>
+            <ContactsViews />
+          </PrivateRoute>
+
           <PublicRoute
             redirectTo={routes.contacts}
             restricted
             path={routes.register}
-            component={RegisterView}
-          />
+          >
+            <RegisterView />
+          </PublicRoute>
           <PublicRoute
             redirectTo={routes.contacts}
             restricted
             path={routes.login}
-            component={LoginView}
-          />
+          >
+            <LoginView />
+          </PublicRoute>
         </Switch>
       </Suspense>
     </>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { getContacts } from '../../redux/phonebook';
 import { useSelector } from 'react-redux';
@@ -10,7 +10,7 @@ import Filter from '../../components/Filter';
 import styles from './ContactsViews.module.scss';
 
 const ContactsViews = () => {
-  const nodeRef = React.createRef(null);
+  const nodeRef = useRef(null);
   const contacts = useSelector(getContacts);
   return (
     <section className={styles.container}>

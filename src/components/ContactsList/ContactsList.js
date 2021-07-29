@@ -1,5 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useCallback, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import {
@@ -12,24 +11,6 @@ import { Error } from '../Error';
 import { Spinner } from '../Loader';
 
 import styles from './ContactsList.module.scss';
-
-// const mapStateToProps = state => {
-//   return {
-//     contacts: getFilteredContacts(state),
-
-//   };
-// };
-
-// const mapDispatchToProps = dispatch => ({
-//   deleteContact: id => dispatch(phonebookOperations.deleteContact(id)),
-//   fetchContacts: () => dispatch(phonebookOperations.fetchContacts()),
-// });
-
-//  componentDidMount() {
-//     this.props.fetchContacts();
-//   }
-
-// const { contacts, deleteContact, isLoading, isError } = this.props;
 
 const ContactsList = () => {
   const dispatch = useDispatch();
@@ -45,13 +26,20 @@ const ContactsList = () => {
     dispatch(phonebookOperations.fetchContacts());
   }, [dispatch]);
 
+  const nodeRef = useRef(null);
+
   return (
     <>
       {isLoading && <Spinner />}
       {isError && <Error />}
       <TransitionGroup component="ul" className={styles.list}>
         {contacts.map(({ name, id, number }) => (
-          <CSSTransition key={id} timeout={500} classNames={styles}>
+          <CSSTransition
+            nodeRef={nodeRef}
+            key={id}
+            timeout={500}
+            classNames={styles}
+          >
             <li key={id} className={styles.item}>
               <span className={styles.item_name}>{name}</span>
               <span className={styles.item_number}>{number}</span>
